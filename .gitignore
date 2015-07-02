@@ -1,0 +1,93 @@
+#include <stdio.h>
+#define TAM 5
+#include <locale.h>
+
+//global
+int fila[TAM];
+int cauda=0;
+
+//protótipos
+void enqueue(int x);
+int dequeue();
+void mostraFila();
+
+//enqueue:enfileirar: inserir elemento na cauda da fila
+//se houver capacidade
+void enqueue(int x){
+	if(cauda==TAM){
+		printf("Fila cheia.\n");
+	}else{
+		fila[cauda]=x;
+		cauda++;
+	}
+}
+
+//dequeue: desenfileira: retirar e retornar o elemento da cabeça da fila
+//se houver elementos na fila
+//se vazia, retornar -1
+int dequeue(){
+	int aux, i;
+	if(cauda==0){
+		printf("Fila vazia.\n");
+		return -1;
+	}else{
+		aux=fila[0];
+		cauda--;
+		for(i=0;i<cauda;i++){
+			fila[i]=fila[i+1];
+		}
+		return aux;
+	}
+}
+
+//mostra os elementos da fila na horizontal
+void mostraFila(){
+	int i;
+	
+	for(i=0;i<cauda;i++){
+		printf("%d", fila[i]);
+	}
+	printf("\n");
+}
+
+main(){
+	setlocale(LC_ALL, "");
+	//variáveis locais
+	int op, n;
+	
+	
+	do{
+		// apresentar as opções do menu
+		system("cls");
+		printf("# Pilha #\n\n");
+		printf("1-Enqueue\n");
+		printf("2-Dequeue\n");
+		printf("3-Listar\n");
+		printf("4-Sair\n\n");
+		printf("Opção: ");
+		scanf("%d", &op);
+		
+		switch(op){
+			case 1:		
+				printf("Informe o numero a ser empilhado:");
+				scanf("%d", &n);
+				enqueue(n);
+				break;
+			case 2:
+				n=dequeue();
+				if(n!=-1){
+					printf("Elemento removido: %d\n", n);
+				}
+				break;
+			case 3:
+				mostraFila();
+			case 4:
+				break;
+			default:
+				printf("Opção invalida. Tente novamente.\n\n");							
+		}
+		
+		getch();
+		
+	}while(op!=4);
+}
